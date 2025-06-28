@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addItem } from './CartSlice'; // Import addItem from CartSlice
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from './CartSlice';
 import './ProductList.css';
 import CartItem from './CartItem';
 
 function ProductList({ onHomeClick }) {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false);
-  const [addedToCart, setAddedToCart] = useState({}); // State to track added items
-  const dispatch = useDispatch(); // Initialize useDispatch for Redux
+  const [addedToCart, setAddedToCart] = useState({});
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cart.items); // Access cart items from Redux store
+  const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0); // Calculate total quantity
 
   const plantsArray = [
     {
@@ -22,7 +24,7 @@ function ProductList({ onHomeClick }) {
         },
         {
           name: "Spider Plant",
-          image: "https://cdn.pixabay.com/photo/2018/07/11/06/47/chileophytum-3530413_1280.jpg",
+          image: "https://cdn.pixabay.com/photo/2018/07/11/06/47/chlorophytum-3530413_1280.jpg",
           description: "Filters formaldehyde and xylene from the air.",
           cost: "$12"
         },
@@ -267,10 +269,10 @@ function ProductList({ onHomeClick }) {
   };
 
   const handleAddToCart = (plant) => {
-    dispatch(addItem(plant)); // Dispatch the action to add the plant to the cart
+    dispatch(addItem(plant));
     setAddedToCart((prevState) => ({
       ...prevState,
-      [plant.name]: true, // Mark the plant as added
+      [plant.name]: true,
     }));
   };
 
@@ -321,6 +323,7 @@ function ProductList({ onHomeClick }) {
                     id="mainIconPathAttribute"
                   ></path>
                 </svg>
+                <span className="cart_quantity_count">{totalQuantity}</span>
               </h1>
             </a>
           </div>
