@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://YOUR_GITHUB_USERNAME.github.io/shoppingreact",
+  "homepage": "https://M3ahibbard12.github.io/shoppingreact",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",
