@@ -7,7 +7,6 @@ import CartItem from './CartItem';
 function ProductList({ onHomeClick }) {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false);
-  const [addedToCart, setAddedToCart] = useState({});
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cart.items); // Access cart items from Redux store
   const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0); // Calculate total quantity
@@ -111,7 +110,7 @@ function ProductList({ onHomeClick }) {
           cost: "$8"
         },
         {
-          name: "Geraniums",
+          name: "Ger Siri, I have a question about the Grok 3 model. Can you tell me about its capabilities and how it compares to other AI models?aniums",
           image: "https://cdn.pixabay.com/photo/2012/04/26/21/51/flowerpot-43270_1280.jpg",
           description: "Known for their insect-repelling properties while adding a pleasant scent.",
           cost: "$20"
@@ -270,10 +269,11 @@ function ProductList({ onHomeClick }) {
 
   const handleAddToCart = (plant) => {
     dispatch(addItem(plant));
-    setAddedToCart((prevState) => ({
-      ...prevState,
-      [plant.name]: true,
-    }));
+  };
+
+  // Check if a plant is in the cart
+  const isInCart = (plantName) => {
+    return cartItems.some(item => item.name === plantName);
   };
 
   return (
@@ -342,11 +342,11 @@ function ProductList({ onHomeClick }) {
                     <p>{plant.description}</p>
                     <p className="product-price">{plant.cost}</p>
                     <button
-                      className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`}
+                      className={`product-button ${isInCart(plant.name) ? 'added-to-cart' : ''}`}
                       onClick={() => handleAddToCart(plant)}
-                      disabled={addedToCart[plant.name]}
+                      disabled={isInCart(plant.name)}
                     >
-                      {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                      {isInCart(plant.name) ? 'Added to Cart' : 'Add to Cart'}
                     </button>
                   </div>
                 ))}
